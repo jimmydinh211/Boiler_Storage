@@ -1,25 +1,18 @@
 /* Initialize server and require important packages for program */
-
 require("dotenv").config();
 const dotenv=require('dotenv');
 const express = require("express");
 const cors = require("cors");
-const passport = require("passport");
-const authRoute = require("./Routes/auth");
-const session = require("express-session");
-const passportStrategy = require("./passport");
+const authRoute = require("./routes/authRoutes");
+const db = require("./config/db");
+
+
 const app = express();
 
-app.use(session({
-	secret: 'trial',
-	resave: false,
-	saveUninitialized: true,
-	cookie: { secure: true }
- }));
- 
+// Middleware 
+app.use(express.static('public'))
+app.use(express.json())
 
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use(
 	cors({
@@ -29,7 +22,9 @@ app.use(
 	})
 );
 
-app.use("/auth", authRoute);
+app.use(authRoute);
 
 const port = 8080;
 app.listen(port, () => console.log(`Listenting on port ${port}...`));
+
+db()

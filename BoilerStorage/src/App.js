@@ -1,15 +1,25 @@
 import React from 'react';
-import Header from './Header';
-import Main from './Main';
-import Footer from './Footer';
+import Home from './Components/Home/home'
+import Login from './Components/Authentication/Login'
+import Signup from './Components/Authentication/Signup'
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes
+} from 'react-router-dom'
+
 
 function App() {
   return (
-    <div>
-      <Header />
-      <Main />
-      <Footer />
-    </div>
+    <Router>
+      <Routes>
+        <Route exact path='/' Component={Home} />
+        <Route path='/home/:authenticated/:name' Component={Home} />
+        <Route path='/login' Component={Login}/>
+        <Route path='/signup' Component={Signup} />
+        <Route path='/failed' Component={Error}/>
+      </Routes>
+    </Router>
   );
 }
 

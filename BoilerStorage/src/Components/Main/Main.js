@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 
+import axios, * as others from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+
 const useStyles = createUseStyles({
   main: {
     backgroundColor: '#000',
@@ -45,6 +49,9 @@ const useStyles = createUseStyles({
 });
 
 function Main() {
+
+  let navigate = useNavigate();
+
   const classes = useStyles();
 
   const [username, setUsername] = useState('');
@@ -58,19 +65,31 @@ function Main() {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    console.log('Username:', username);
-    console.log('Password:', password);
+    try {
+      const url = `http://localhost:8080/login`
+      const res = await axios.post(url, { email: username, password: password })
+      console.log(res)
+      if (res.data.success === true) {
+        await navigate(`../home/success/${username}`, {replace: true});
+      } else {
+        alert("Invalid credentials")
+        await navigate(`../login`, {replace: true});
+        console.log("Error to log in");
+      }
+    } catch (err) {
+      console.log(err);
+      console.log("ererwerwerwer")
+    }
   };
 
   return (
     <main className={classes.main}>
       <div className={classes.hero}>
         <h1>Welcome to BoilerStorage</h1>
-       
       </div>
-      <form className={classes.form} onSubmit={handleSubmit}>
+      <form className={classes.form} onSubmit={handleLogin}>
         <input type="text" placeholder="Username" value={username} onChange={handleUsernameChange} />
         <input type="password" placeholder="Password" value={password} onChange={handlePasswordChange} />
         <button type="submit">Log In</button>

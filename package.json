@@ -4,7 +4,7 @@
   "description": "Boiler Storage - Storage Solution for Purdue Students",
   "main": "index.js",
   "scripts": {
-    "run": "nodemon BackEnd/server.js",
+    "start": "nodemon BackEnd/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
